@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Control Panel Demo - Sudesh Jayasundara</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+            transition: background-color 0.5s;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        .status {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(21, 20, 20, 0.1);
+        }
+        .status.on {
+            color: #4ade80;
+        }
+        .status.off {
+            color: #f87171;
+        }
+        button {
+            font-size: 18px;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 120px;
+        }
+        #onBtn {
+            background: #22c55e;
+            color: white
+        }
+        #offBtn {
+            background: #ef4444;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            opacity:0.7;
+        }
+    </style>
+</head>
+<body id="body">
+    <div class="container">
+        <h1>IoT Device Control</h1>
+        <p>Demo panel for Vampior Design Internship</p>
+        <div id="status" class="status off">Device Status: OFF</div>
+        <button id="onBtn" onclick="turnOn()">Turn ON</button>
+        <button id="offBtn" onclick="turnOff()">Turn OFF</button>
+        <div class="footer">
+            <p>Last command: <span id="timestamp">None</span>
+            </p>
+            <p>Built by Sudesh Jayasundara</p>
+
+        </div>
+    </div>
+    <script>
+        //Load saved state when page opens
+        window.onload = function() {
+            const savedState = localStorage.getItem('deviceState');
+            if (savedState === 'on') {
+                turnOn(false);
+            } else {
+                turnOff(false);
+            }
+        }
+
+        function turnOn(updateTime = true) {
+            document.getElementById('body').style.bacgroundColor = '#14532d';
+            document.getElementById('status').textContent = 'Device Status: ON';
+            document.getElementById('body').className = 'status on';
+            localStorage.setItem('deviceState', 'on');
+            if (updateTime) updateTimestamp('ON');
+        }
+
+        function turnOff(updateTime = true) {
+            document.getElementById('body').style.bacgroundColor = '#14532d';
+            document.getElementById('status').textContent = 'Device Status: OFF';
+            document.getElementById('body').className = 'status off';
+            localStorage.setItem('deviceState', 'off');
+            if (updateTime) updateTimestamp('OFF');
+        }
+
+        function updateTimeStamp(command) {
+            const now = new Date().toLocalTimeString();
+            document.getElementById('timestamp').textContent = `${command} at ${now}`;
+        }
+    </script>
+</body>
+</html>
